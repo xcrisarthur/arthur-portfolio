@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio Cristianto Tri Arthurito — IT Support, Full Stack Development, Networking & Cybersecurity">
+  <meta name="theme-color" content="#0a0a0b">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Portfolio — Cristianto Tri Arthurito">
+  <meta property="og:description" content="IT Support · Full Stack · Networking & Cybersecurity — Bandung, Indonesia">
+  <meta property="og:locale" content="id_ID">
+  <title>Portfolio — Cristianto Tri Arthurito</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="site">
+  <div class="site__noise" aria-hidden="true"></div>
+
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__brand" aria-label="Beranda portfolio">
+        <span class="site-header__mark" aria-hidden="true"></span>
+        <span class="site-header__brand-text">
+          <strong id="nav-brand">Arthur</strong>
+          <small>Portfolio</small>
+        </span>
+      </a>
+
+      <nav class="site-header__nav" id="site-nav" aria-label="Navigasi utama">
+        <div class="site-header__links">
+          <a href="/about.html" class="nav-link" data-nav="about">Tentang</a>
+          <a href="#pengalaman" class="nav-link" data-nav="pengalaman">Pengalaman</a>
+          <a href="#prestasi" class="nav-link" data-nav="prestasi">Prestasi</a>
+          <a href="#keahlian" class="nav-link" data-nav="keahlian">Keahlian</a>
+          <a href="#kontak" class="nav-link" data-nav="kontak">Kontak</a>
+        </div>
+      </nav>
+
+      <div class="site-header__tools">
+        <div id="theme-slot"></div>
+        <button type="button" class="site-header__menu" id="nav-toggle" aria-label="Buka menu" aria-expanded="false" aria-controls="site-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="site-header__backdrop" id="nav-backdrop" hidden></div>
+  </header>
+
+  <main class="site-main">
+    <div id="load-error" class="alert" hidden role="alert"></div>
+
+    <section id="hero" class="hero" aria-label="Profil" aria-busy="true">
+      <div class="hero-skeleton" id="hero-skeleton">
+        <p class="skeleton skeleton--line skeleton--sm"></p>
+        <p class="skeleton skeleton--title"></p>
+        <p class="skeleton skeleton--line"></p>
+        <p class="skeleton skeleton--line skeleton--short"></p>
+      </div>
+    </section>
+
+    <section class="stats" id="stats" aria-label="Statistik" hidden>
+      <div class="stats__grid" id="stats-grid"></div>
+    </section>
+
+    <section id="tentang" class="section section--teaser">
+      <h2 class="section__title">Tentang Saya</h2>
+      <div id="about-teaser" class="about-teaser">
+        <p class="muted">Memuat…</p>
+      </div>
+    </section>
+
+    <section id="pengalaman" class="section">
+      <h2 class="section__title">Pengalaman Terpilih</h2>
+      <p class="section__lead">Peran dan proyek yang membentuk cara saya membangun sistem.</p>
+      <div id="experience-featured" class="work-grid"></div>
+      <details class="timeline-expand" id="timeline-expand" hidden>
+        <summary>Lihat semua pengalaman</summary>
+        <div id="experience-list" class="timeline"></div>
+      </details>
+    </section>
+
+    <section id="prestasi" class="section">
+      <h2 class="section__title">Prestasi & Sertifikasi</h2>
+      <div id="ach-section-photos" class="ach-section-photos" hidden></div>
+      <div class="ach-grid" id="ach-grid">
+        <div class="ach-card" id="ach-competitions"><p class="muted">Memuat…</p></div>
+        <div class="ach-card" id="ach-certifications"><p class="muted">Memuat…</p></div>
+        <div class="ach-card" id="ach-activities"><p class="muted">Memuat…</p></div>
+      </div>
+    </section>
+
+    <section id="keahlian" class="section">
+      <h2 class="section__title">Keahlian & Stack</h2>
+      <p class="section__lead">Teknologi dan domain yang saya gunakan sehari-hari.</p>
+      <div class="skills-grid" id="skills-grid">
+        <p class="muted">Memuat…</p>
+      </div>
+    </section>
+
+    <section id="kontak" class="section section--cta">
+      <h2 class="section__title">Mari Berkolaborasi</h2>
+      <p class="section__lead" id="cta-lead">Tertarik diskusi proyek, konsultasi TI, atau kolaborasi teknis? Hubungi saya.</p>
+      <div class="cta-actions" id="cta-actions"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> <span id="footer-name">Cristianto Tri Arthurito</span></p>
+    <p class="site-footer__meta"><span id="footer-location">Bandung, Indonesia</span></p>
+  </footer>
+
+  <dialog id="lightbox" class="lightbox">
+    <button type="button" class="lightbox__close" id="lightbox-close" aria-label="Tutup">×</button>
+    <img id="lightbox-img" src="" alt="Foto diperbesar">
+  </dialog>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/photos.js"></script>
+  <script src="/js/core.js"></script>
+  <script src="/js/counters.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/site.js"></script>
+</body>
+</html>

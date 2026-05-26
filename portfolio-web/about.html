@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tentang Cristianto Tri Arthurito — IT Support, Full Stack, Networking & Cybersecurity">
+  <title>Tentang — Portfolio</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="site site--about">
+  <div class="site__noise" aria-hidden="true"></div>
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__brand" aria-label="Beranda portfolio">
+        <span class="site-header__mark" aria-hidden="true"></span>
+        <span class="site-header__brand-text">
+          <strong id="nav-brand">Arthur</strong>
+          <small>Portfolio</small>
+        </span>
+      </a>
+      <nav class="site-header__nav" id="site-nav" aria-label="Navigasi utama">
+        <div class="site-header__links">
+          <a href="/" class="nav-link" data-nav="home">Beranda</a>
+          <a href="/about.html" class="nav-link is-active" data-nav="about">Tentang</a>
+          <a href="/#pengalaman" class="nav-link" data-nav="pengalaman">Pengalaman</a>
+          <a href="/#prestasi" class="nav-link" data-nav="prestasi">Prestasi</a>
+          <a href="/#keahlian" class="nav-link" data-nav="keahlian">Keahlian</a>
+          <a href="/#kontak" class="nav-link" data-nav="kontak">Kontak</a>
+        </div>
+      </nav>
+      <div class="site-header__tools">
+        <div id="theme-slot"></div>
+        <button type="button" class="site-header__menu" id="nav-toggle" aria-label="Buka menu" aria-expanded="false" aria-controls="site-nav">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="site-header__backdrop" id="nav-backdrop" hidden></div>
+  </header>
+  <main class="site-main">
+    <div id="load-error" class="alert" hidden role="alert"></div>
+    <header class="about-page__hero">
+      <h1 class="about-page__title" id="about-page-title">Tentang Saya</h1>
+      <p class="section__lead">Perjalanan dari kampus hingga infrastruktur perusahaan — membangun sistem yang andal.</p>
+    </header>
+    <section class="section about-page__layout">
+      <div id="about-story" class="about-page__main">
+        <p class="muted">Memuat…</p>
+      </div>
+      <aside id="about-sidebar" class="about-page__aside"></aside>
+    </section>
+    <section class="section">
+      <h2 class="section__title">Cara Saya Bekerja</h2>
+      <div id="about-principles" class="principle-grid"></div>
+    </section>
+    <section class="section">
+      <h2 class="section__title">Stack & Keahlian</h2>
+      <p class="section__lead">Teknologi dan domain yang saya gunakan sehari-hari.</p>
+      <div id="about-stack" class="stack-cloud"></div>
+    </section>
+    <section class="section section--cta">
+      <h2 class="section__title">Mari Berkolaborasi</h2>
+      <p class="section__lead">Tertarik diskusi proyek atau kolaborasi teknis?</p>
+      <div class="cta-actions" id="about-cta"></div>
+      <p class="about-page__back"><a href="/">← Kembali ke beranda</a></p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© <span id="year"></span> <span id="footer-name">Cristianto Tri Arthurito</span></p>
+    <p class="site-footer__meta"><span id="footer-location">Bandung, Indonesia</span></p>
+  </footer>
+  <dialog id="lightbox" class="lightbox">
+    <button type="button" class="lightbox__close" id="lightbox-close" aria-label="Tutup">×</button>
+    <img id="lightbox-img" src="" alt="Foto diperbesar">
+  </dialog>
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/photos.js"></script>
+  <script src="/js/core.js"></script>
+  <script src="/js/about-page.js"></script>
+  <script src="/js/site.js"></script>
+</body>
+</html>

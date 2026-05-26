@@ -1,0 +1,46 @@
+name: arthur-portfolio
+
+services:
+  portfolio-api:
+    build: ./portfolio-api
+    restart: unless-stopped
+    expose:
+      - "3002"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3002/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    environment:
+      PORT: "3002"
+      DATA_DIR: /data
+      ADMIN_USER: ${PORTFOLIO_ADMIN_USER:-arthur}
+      ADMIN_PASS: ${PORTFOLIO_ADMIN_PASS:-ganti-password-kuat}
+      JWT_SECRET: ${PORTFOLIO_JWT_SECRET:-ganti-jwt-secret-panjang}
+      CORS_ORIGIN: ${PORTFOLIO_CORS_ORIGIN:-http://localhost:9991}
+    volumes:
+      - portfolio_api_data:/data
+    networks:
+      - web
+
+  web:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:9991:80"
+    volumes:
+      - ./portfolio-web:/usr/share/nginx/html:ro
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      portfolio-api:
+        condition: service_healthy
+    networks:
+      - web
+
+volumes:
+  portfolio_api_data:
+
+networks:
+  web:
+    driver: bridge

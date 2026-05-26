@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="admin-body">
+  <div id="login-screen">
+    <div class="login-box">
+      <h1>Kelola Portfolio</h1>
+      <p class="hint">Login untuk mengedit konten dan foto tanpa coding.</p>
+      <form id="login-form">
+        <label class="field">
+          <span>Username</span>
+          <input id="login-user" name="username" autocomplete="username" required>
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input id="login-pass" type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="btn btn--primary" id="login-btn" style="width:100%">Masuk</button>
+      </form>
+      <p class="hint" style="margin-top:16px"><a href="/">← Lihat situs publik</a></p>
+    </div>
+  </div>
+
+  <div id="admin-screen" hidden>
+    <header class="admin-top">
+      <div>
+        <strong>Panel Admin Portfolio</strong>
+        <p class="hint" style="margin:4px 0 0">Edit teks & foto, lalu klik Simpan perubahan</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="/" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">Lihat situs</a>
+        <button type="button" class="btn btn--ghost btn--sm" id="btn-logout">Keluar</button>
+      </div>
+    </header>
+
+    <nav class="admin-tabs" aria-label="Bagian edit">
+      <button type="button" class="is-active" data-tab="profile">Profil & Tentang</button>
+      <button type="button" data-tab="experience">Pengalaman</button>
+      <button type="button" data-tab="achievements">Prestasi</button>
+      <button type="button" data-tab="skills">Keahlian</button>
+    </nav>
+
+    <div class="admin-main">
+      <section data-panel="profile">
+        <h2 class="section__title">Profil</h2>
+        <div id="photo-profile" class="photo-slot-wrap"></div>
+        <div class="card form-grid form-grid--2">
+          <label class="field"><span>Nama lengkap</span><input id="f-name"></label>
+          <label class="field"><span>Nama panggilan</span><input id="f-nickname" placeholder="Arthur"></label>
+          <label class="field field--full"><span>Tagline</span><input id="f-tagline"></label>
+          <label class="field field--full"><span>Ringkasan hero (1–2 kalimat)</span><textarea id="f-bio" rows="3" placeholder="Paragraf singkat di beranda, di bawah tagline"></textarea></label>
+          <label class="field"><span>Email</span><input id="f-email" type="email"></label>
+          <label class="field"><span>Telepon</span><input id="f-phone"></label>
+          <label class="field"><span>Lokasi</span><input id="f-location"></label>
+          <label class="field"><span>LinkedIn (URL)</span><input id="f-linkedin"></label>
+          <label class="field"><span>GitHub (URL)</span><input id="f-github"></label>
+          <label class="field field--full"><span>Minat pribadi</span><input id="f-interests"></label>
+        </div>
+        <h2 class="section__title" style="margin-top:24px">Tentang Saya</h2>
+        <div id="photo-about" class="photo-slot-wrap"></div>
+        <p class="hint">Satu paragraf per baris.</p>
+        <label class="field">
+          <span>Paragraf</span>
+          <textarea id="f-about" rows="8"></textarea>
+        </label>
+      </section>
+
+      <section data-panel="experience" hidden>
+        <h2 class="section__title">Pengalaman Kerja & Magang</h2>
+        <p class="hint">Urutan dari atas = tampil pertama. Tiap pengalaman bisa punya hingga 10 foto.</p>
+        <div id="exp-list"></div>
+        <button type="button" class="btn btn--ghost btn--sm" id="btn-add-exp">+ Tambah pengalaman</button>
+      </section>
+
+      <section data-panel="achievements" hidden>
+        <h2 class="section__title">Prestasi & Sertifikasi</h2>
+        <div id="photo-ach-main" class="photo-slot-wrap"></div>
+        <p class="hint">Satu item per baris di bawah tiap kategori.</p>
+        <div id="photo-ach-comp" class="photo-slot-wrap"></div>
+        <label class="field">
+          <span>Kompetisi & penghargaan</span>
+          <textarea id="f-competitions" rows="5"></textarea>
+        </label>
+        <div id="photo-ach-cert" class="photo-slot-wrap"></div>
+        <label class="field">
+          <span>Sertifikasi</span>
+          <textarea id="f-certifications" rows="3"></textarea>
+        </label>
+        <div id="photo-ach-act" class="photo-slot-wrap"></div>
+        <label class="field">
+          <span>Olahraga & aktivitas</span>
+          <textarea id="f-activities" rows="3"></textarea>
+        </label>
+      </section>
+
+      <section data-panel="skills" hidden>
+        <h2 class="section__title">Keahlian</h2>
+        <p class="hint">Pisahkan item dengan tanda · (titik tengah).</p>
+        <div id="skill-list"></div>
+        <button type="button" class="btn btn--ghost btn--sm" id="btn-add-skill">+ Tambah kategori keahlian</button>
+      </section>
+
+      <div class="admin-actions">
+        <button type="button" class="btn btn--primary" id="btn-save">Simpan perubahan</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/photos.js"></script>
+  <script src="/js/admin-photo.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
