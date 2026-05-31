@@ -1,6 +1,13 @@
 (function () {
   var meta = document.querySelector('meta[name="portfolio-api"]');
-  // Same-origin: nginx :9991 mem-proxy /api/* ke portfolio-api (jalan di IP server manapun).
+  var host = location.hostname;
   var def = location.protocol + "//" + location.host;
-  window.PORTFOLIO_API = (meta && meta.getAttribute("content")) || def;
+  /** HTTPS + sertifikat valid (sslip.io) — diperlukan agar GitHub Pages bisa fetch API */
+  var GITHUB_PAGES_API = "https://103-144-126-90.sslip.io/portfolio-api";
+
+  if (host === "xcrisarthur.github.io") {
+    window.PORTFOLIO_API = (meta && meta.getAttribute("content")) || GITHUB_PAGES_API;
+  } else {
+    window.PORTFOLIO_API = (meta && meta.getAttribute("content")) || def;
+  }
 })();

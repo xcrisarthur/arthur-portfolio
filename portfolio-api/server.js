@@ -14,7 +14,7 @@ const DATA_DIR = process.env.DATA_DIR || "/data";
 const ADMIN_USER = String(process.env.ADMIN_USER || "arthur").trim();
 const ADMIN_PASS = String(process.env.ADMIN_PASS || "arthur14");
 const JWT_SECRET = String(process.env.JWT_SECRET || "portfolio-jwt-change-in-production");
-const CORS_ORIGINS = String(process.env.CORS_ORIGIN || "http://103.164.99.2:9991,http://localhost:9991")
+const CORS_ORIGINS = String(process.env.CORS_ORIGIN || "http://103.164.99.2:9991,http://103.144.126.90:9991,http://localhost:9991,https://xcrisarthur.github.io")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
