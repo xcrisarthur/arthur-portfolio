@@ -6,7 +6,7 @@ module.exports = function defaultPortfolio() {
       name: "Cristianto Tri Arthurito",
       nickname: "Arthur",
       tagline: "IT Support · Full Stack Development · Networking & Cybersecurity",
-      bio: "Saya membangun sistem yang stabil dan aman — dari infrastruktur jaringan, pengembangan web, hingga keamanan siber — agar tim dan bisnis bisa berjalan tanpa hambatan teknis.",
+      bio: "Saya merancang dan mengoperasikan sistem yang stabil serta aman — mulai dari infrastruktur jaringan, pengembangan web, hingga keamanan siber — agar operasional tim dan bisnis berjalan tanpa hambatan teknis.",
       interests: "Lari jarak jauh, hiking, kebugaran",
       email: "xcrisarthur@gmail.com",
       phone: "",
@@ -156,6 +156,71 @@ module.exports = function defaultPortfolio() {
         category: "Soft skills",
         items:
           "Problem Solving · Komunikasi Efektif · Kerja Sama Tim · Manajemen Waktu · Adaptabilitas · Belajar Terus"
+      }
+    ],
+    projects: [
+      {
+        id: "proj-erp",
+        title: "Super App ERP",
+        summary:
+          "Sistem ERP terintegrasi untuk operasional perusahaan — modul keuangan, inventori, HR, dan laporan bisnis dalam satu platform.",
+        tags: "Node.js · PostgreSQL · React · Docker",
+        status: "live",
+        url: "http://103.144.126.90/erp/",
+        urlDemo: "http://103.144.126.90/erp-demo/",
+        repo: "",
+        featured: true,
+        order: 1
+      },
+      {
+        id: "proj-pos-restaurant",
+        title: "POS Restoran",
+        summary:
+          "Aplikasi point of sale untuk operasional restoran — pesanan meja, dapur, pembayaran, dan ringkasan penjualan harian.",
+        tags: "POS · Web App · Real-time · Docker",
+        status: "live",
+        url: "http://103.144.126.90/pos-restoran/",
+        urlDemo: "http://103.144.126.90/pos-restoran-demo/",
+        repo: "",
+        featured: true,
+        order: 2
+      },
+      {
+        id: "proj-pos-retail",
+        title: "POS Retail",
+        summary:
+          "Kasir dan manajemen stok untuk toko retail — barcode, transaksi cepat, dan laporan penjualan per shift.",
+        tags: "POS · Retail · Inventory · Docker",
+        status: "live",
+        url: "http://103.144.126.90:9994/",
+        urlDemo: "http://103.144.126.90/pos-retail-demo/",
+        repo: "",
+        featured: true,
+        order: 3
+      },
+      {
+        id: "proj-portfolio",
+        title: "Portfolio CMS",
+        summary:
+          "Website portfolio dengan panel admin — konten dinamis, upload foto, dan API terpisah untuk pengelolaan profil.",
+        tags: "Node.js · SQLite · CMS · Nginx",
+        status: "live",
+        url: "http://103.144.126.90:9991",
+        repo: "https://github.com/xcrisarthur",
+        featured: false,
+        order: 4
+      },
+      {
+        id: "proj-cctv",
+        title: "CCTV Monitoring",
+        summary:
+          "Panel pemantauan kamera CCTV internal — streaming dan akses terpusat untuk keamanan operasional.",
+        tags: "Streaming · Monitoring · Homelab",
+        status: "internal",
+        url: "http://103.144.126.90:9998",
+        repo: "",
+        featured: false,
+        order: 5
       }
     ]
   };

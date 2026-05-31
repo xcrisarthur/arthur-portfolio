@@ -55,7 +55,8 @@
         activities: linesToArray($("f-activities").value),
         activityPhotos: editors.ach.activities ? editors.ach.activities.getPhotos() : []
       },
-      skills: readSkills()
+      skills: readSkills(),
+      projects: readProjects()
     };
   }
 
@@ -105,6 +106,7 @@
 
     renderExperienceEditor(data.experiences || []);
     renderSkillsEditor(data.skills || []);
+    renderProjectsEditor(data.projects || []);
   }
 
   function renderExperienceEditor(list) {
@@ -200,6 +202,92 @@
         id: card.dataset.skillId || uid("sk"),
         category: card.querySelector('[data-f="category"]').value.trim(),
         items: card.querySelector('[data-f="items"]').value.trim()
+      });
+    });
+    return out;
+  }
+
+  function renderProjectsEditor(list) {
+    var root = $("project-list");
+    if (!root) return;
+    root.innerHTML = "";
+    list.forEach(function (proj, idx) {
+      root.appendChild(projectCard(proj, idx));
+    });
+  }
+
+  function projectCard(proj, idx) {
+    var card = document.createElement("div");
+    card.className = "editor-card";
+    card.dataset.projectId = proj.id || uid("proj");
+    var status = proj.status || "live";
+    card.innerHTML =
+      '<div class="editor-card__head">' +
+      "<strong>Proyek #" +
+      (idx + 1) +
+      '</strong><button type="button" class="btn danger btn--sm" data-del-project>Hapus</button></div>' +
+      '<label class="field"><span>Judul</span><input data-f="title" value="' +
+      escAttr(proj.title) +
+      '"></label>' +
+      '<label class="field field--full"><span>Ringkasan</span><textarea data-f="summary" rows="3">' +
+      escText(proj.summary) +
+      "</textarea></label>" +
+      '<label class="field field--full"><span>Tag teknologi (pisahkan dengan ·)</span><input data-f="tags" value="' +
+      escAttr(proj.tags) +
+      '"></label>' +
+      '<label class="field"><span>Status</span><select data-f="status">' +
+      '<option value="live"' +
+      (status === "live" ? " selected" : "") +
+      ">Production</option>" +
+      '<option value="internal"' +
+      (status === "internal" ? " selected" : "") +
+      ">Internal</option>" +
+      '<option value="demo"' +
+      (status === "demo" ? " selected" : "") +
+      ">Demo</option>" +
+      '<option value="development"' +
+      (status === "development" ? " selected" : "") +
+      ">Dalam pengembangan</option>" +
+      "</select></label>" +
+      '<label class="field"><span>Urutan tampil</span><input data-f="order" type="number" min="1" value="' +
+      escAttr(String(proj.order != null ? proj.order : idx + 1)) +
+      '"></label>' +
+      '<label class="field"><span>URL production</span><input data-f="url" value="' +
+      escAttr(proj.url) +
+      '" placeholder="https://..."></label>' +
+      '<label class="field"><span>URL demo</span><input data-f="urlDemo" value="' +
+      escAttr(proj.urlDemo) +
+      '" placeholder="https://.../…-demo/"></label>' +
+      '<label class="field"><span>URL GitHub (opsional)</span><input data-f="repo" value="' +
+      escAttr(proj.repo) +
+      '" placeholder="https://github.com/..."></label>' +
+      '<label class="field field--full"><span><input type="checkbox" data-f="featured"' +
+      (proj.featured ? " checked" : "") +
+      "> Tampil di beranda (unggulan)</span></label>";
+    card.querySelector("[data-del-project]").addEventListener("click", function () {
+      card.remove();
+    });
+    return card;
+  }
+
+  function readProjects() {
+    var root = $("project-list");
+    if (!root) return [];
+    var cards = root.querySelectorAll(".editor-card");
+    var out = [];
+    cards.forEach(function (card, idx) {
+      var orderVal = card.querySelector('[data-f="order"]').value.trim();
+      out.push({
+        id: card.dataset.projectId || uid("proj"),
+        title: card.querySelector('[data-f="title"]').value.trim(),
+        summary: card.querySelector('[data-f="summary"]').value.trim(),
+        tags: card.querySelector('[data-f="tags"]').value.trim(),
+        status: card.querySelector('[data-f="status"]').value,
+        url: card.querySelector('[data-f="url"]').value.trim(),
+        urlDemo: card.querySelector('[data-f="urlDemo"]').value.trim(),
+        repo: card.querySelector('[data-f="repo"]').value.trim(),
+        featured: card.querySelector('[data-f="featured"]').checked,
+        order: orderVal ? Number(orderVal) : idx + 1
       });
     });
     return out;
@@ -302,6 +390,26 @@
 
     $("btn-add-skill").addEventListener("click", function () {
       $("skill-list").appendChild(skillCard({ id: uid("sk"), category: "", items: "" }, $("skill-list").children.length));
+    });
+
+    $("btn-add-project").addEventListener("click", function () {
+      var list = $("project-list");
+      list.appendChild(
+        projectCard(
+          {
+            id: uid("proj"),
+            title: "",
+            summary: "",
+            tags: "",
+            status: "live",
+            url: "",
+            repo: "",
+            featured: true,
+            order: list.children.length + 1
+          },
+          list.children.length
+        )
+      );
     });
 
     if (window.PortfolioApi.getToken()) {

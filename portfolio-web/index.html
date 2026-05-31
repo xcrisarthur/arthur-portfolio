@@ -22,27 +22,29 @@
 
   <header class="site-header" id="site-header">
     <div class="site-header__inner">
-      <a href="/" class="site-header__brand" aria-label="Beranda portfolio">
+      <a href="/" class="site-header__brand" data-i18n-attr="aria-label:nav.home">
         <span class="site-header__mark" aria-hidden="true"></span>
         <span class="site-header__brand-text">
           <strong id="nav-brand">Arthur</strong>
-          <small>Portfolio</small>
+          <small data-i18n="nav.brand">Portfolio</small>
         </span>
       </a>
 
       <nav class="site-header__nav" id="site-nav" aria-label="Navigasi utama">
         <div class="site-header__links">
-          <a href="/about.html" class="nav-link" data-nav="about">Tentang</a>
-          <a href="#pengalaman" class="nav-link" data-nav="pengalaman">Pengalaman</a>
-          <a href="#prestasi" class="nav-link" data-nav="prestasi">Prestasi</a>
-          <a href="#keahlian" class="nav-link" data-nav="keahlian">Keahlian</a>
-          <a href="#kontak" class="nav-link" data-nav="kontak">Kontak</a>
+          <a href="/about.html" class="nav-link" data-nav="about" data-i18n="nav.about">Tentang</a>
+          <a href="#pengalaman" class="nav-link" data-nav="pengalaman" data-i18n="nav.experience">Pengalaman</a>
+          <a href="#proyek" class="nav-link" data-nav="proyek" data-i18n="nav.projects">Proyek</a>
+          <a href="#prestasi" class="nav-link" data-nav="prestasi" data-i18n="nav.achievements">Prestasi</a>
+          <a href="#keahlian" class="nav-link" data-nav="keahlian" data-i18n="nav.skills">Keahlian</a>
+          <a href="#kontak" class="nav-link" data-nav="kontak" data-i18n="nav.contact">Kontak</a>
         </div>
       </nav>
 
       <div class="site-header__tools">
+        <div id="lang-slot"></div>
         <div id="theme-slot"></div>
-        <button type="button" class="site-header__menu" id="nav-toggle" aria-label="Buka menu" aria-expanded="false" aria-controls="site-nav">
+        <button type="button" class="site-header__menu" id="nav-toggle" data-i18n-attr="aria-label:nav.menu.open" aria-expanded="false" aria-controls="site-nav">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -67,43 +69,51 @@
     </section>
 
     <section id="tentang" class="section section--teaser">
-      <h2 class="section__title">Tentang Saya</h2>
+      <h2 class="section__title" data-i18n="section.about">Tentang Saya</h2>
       <div id="about-teaser" class="about-teaser">
-        <p class="muted">Memuat…</p>
+        <p class="muted" data-i18n="loading">Memuat…</p>
       </div>
     </section>
 
     <section id="pengalaman" class="section">
-      <h2 class="section__title">Pengalaman Terpilih</h2>
-      <p class="section__lead">Peran dan proyek yang membentuk cara saya membangun sistem.</p>
+      <h2 class="section__title" data-i18n="section.experience">Pengalaman Terpilih</h2>
+      <p class="section__lead" data-i18n="section.experience.lead">Peran dan proyek strategis yang membentuk pendekatan saya dalam merancang dan mengoperasikan sistem teknologi.</p>
       <div id="experience-featured" class="work-grid"></div>
       <details class="timeline-expand" id="timeline-expand" hidden>
-        <summary>Lihat semua pengalaman</summary>
+        <summary data-i18n="timeline.expand">Lihat seluruh riwayat pengalaman</summary>
         <div id="experience-list" class="timeline"></div>
       </details>
     </section>
 
+    <section id="proyek" class="section">
+      <h2 class="section__title" data-i18n="section.projects">Proyek & Aplikasi</h2>
+      <p class="section__lead" data-i18n="section.projects.lead">Solusi perangkat lunak dan infrastruktur yang saya kembangkan — mulai dari ERP, POS, hingga homelab.</p>
+      <div class="work-grid" id="projects-grid">
+        <p class="muted" data-i18n="loading">Memuat…</p>
+      </div>
+    </section>
+
     <section id="prestasi" class="section">
-      <h2 class="section__title">Prestasi & Sertifikasi</h2>
+      <h2 class="section__title" data-i18n="section.achievements">Prestasi & Sertifikasi</h2>
       <div id="ach-section-photos" class="ach-section-photos" hidden></div>
       <div class="ach-grid" id="ach-grid">
-        <div class="ach-card" id="ach-competitions"><p class="muted">Memuat…</p></div>
-        <div class="ach-card" id="ach-certifications"><p class="muted">Memuat…</p></div>
-        <div class="ach-card" id="ach-activities"><p class="muted">Memuat…</p></div>
+        <div class="ach-card" id="ach-competitions"><p class="muted" data-i18n="loading">Memuat…</p></div>
+        <div class="ach-card" id="ach-certifications"><p class="muted" data-i18n="loading">Memuat…</p></div>
+        <div class="ach-card" id="ach-activities"><p class="muted" data-i18n="loading">Memuat…</p></div>
       </div>
     </section>
 
     <section id="keahlian" class="section">
-      <h2 class="section__title">Keahlian & Stack</h2>
-      <p class="section__lead">Teknologi dan domain yang saya gunakan sehari-hari.</p>
+      <h2 class="section__title" data-i18n="section.skills">Keahlian & Stack</h2>
+      <p class="section__lead" data-i18n="section.skills.lead">Teknologi dan domain yang saya gunakan dalam pekerjaan sehari-hari.</p>
       <div class="skills-grid" id="skills-grid">
-        <p class="muted">Memuat…</p>
+        <p class="muted" data-i18n="loading">Memuat…</p>
       </div>
     </section>
 
     <section id="kontak" class="section section--cta">
-      <h2 class="section__title">Mari Berkolaborasi</h2>
-      <p class="section__lead" id="cta-lead">Tertarik diskusi proyek, konsultasi TI, atau kolaborasi teknis? Hubungi saya.</p>
+      <h2 class="section__title" data-i18n="section.contact">Kolaborasi & Kontak</h2>
+      <p class="section__lead" id="cta-lead" data-i18n="section.contact.lead">Tertarik mendiskusikan proyek, konsultasi TI, atau kolaborasi teknis? Silakan hubungi saya.</p>
       <div class="cta-actions" id="cta-actions"></div>
     </section>
   </main>
@@ -114,15 +124,24 @@
   </footer>
 
   <dialog id="lightbox" class="lightbox">
-    <button type="button" class="lightbox__close" id="lightbox-close" aria-label="Tutup">×</button>
-    <img id="lightbox-img" src="" alt="Foto diperbesar">
+    <button type="button" class="lightbox__close" id="lightbox-close" data-i18n-attr="aria-label:lightbox.close">×</button>
+    <div class="lightbox__single" id="lightbox-single">
+      <img id="lightbox-img" src="" alt="Foto diperbesar">
+    </div>
+    <div class="lightbox__album" id="lightbox-album" hidden>
+      <p class="lightbox__album-title" id="lightbox-album-title"></p>
+      <div class="lightbox__album-grid" id="lightbox-album-grid"></div>
+    </div>
   </dialog>
 
   <script src="/js/config.js"></script>
+  <script src="/js/content-i18n.js?v=1"></script>
+  <script src="/js/i18n.js?v=3"></script>
   <script src="/js/api.js"></script>
   <script src="/js/photos.js"></script>
   <script src="/js/core.js"></script>
   <script src="/js/counters.js"></script>
+  <script src="/js/reveal.js"></script>
   <script src="/js/app.js"></script>
   <script src="/js/site.js"></script>
 </body>

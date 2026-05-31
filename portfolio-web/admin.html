@@ -44,6 +44,7 @@
     <nav class="admin-tabs" aria-label="Bagian edit">
       <button type="button" class="is-active" data-tab="profile">Profil & Tentang</button>
       <button type="button" data-tab="experience">Pengalaman</button>
+      <button type="button" data-tab="projects">Proyek</button>
       <button type="button" data-tab="achievements">Prestasi</button>
       <button type="button" data-tab="skills">Keahlian</button>
     </nav>
@@ -78,6 +79,13 @@
         <p class="hint">Urutan dari atas = tampil pertama. Tiap pengalaman bisa punya hingga 10 foto.</p>
         <div id="exp-list"></div>
         <button type="button" class="btn btn--ghost btn--sm" id="btn-add-exp">+ Tambah pengalaman</button>
+      </section>
+
+      <section data-panel="projects" hidden>
+        <h2 class="section__title">Proyek & Aplikasi</h2>
+        <p class="hint">Urutan dari atas = tampil pertama. Centang &quot;Tampil di beranda&quot; untuk proyek unggulan.</p>
+        <div id="project-list"></div>
+        <button type="button" class="btn btn--ghost btn--sm" id="btn-add-project">+ Tambah proyek</button>
       </section>
 
       <section data-panel="achievements" hidden>

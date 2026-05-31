@@ -20,7 +20,8 @@ const CORS_ORIGINS = String(process.env.CORS_ORIGIN || "http://103.164.99.2:9991
   .filter(Boolean);
 const TOKEN_TTL_MS = Number(process.env.TOKEN_TTL_HOURS || 24) * 3600 * 1000;
 const MAX_BODY = 2 * 1024 * 1024;
-const MAX_BODY_MEDIA = 4 * 1024 * 1024;
+/** 0 = tanpa batas body upload media (default). Set MEDIA_MAX_BODY_BYTES untuk membatasi. */
+const MAX_BODY_MEDIA = Number(process.env.MEDIA_MAX_BODY_BYTES || 0);
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 const db = new Database(path.join(DATA_DIR, "portfolio.sqlite"));
@@ -38,6 +39,18 @@ function hydratePortfolioDefaults(data) {
   const defaults = defaultPortfolio();
   if (data.profile) {
     if (!data.profile.bio && defaults.profile.bio) data.profile.bio = defaults.profile.bio;
+  }
+  if (!Array.isArray(data.projects) || !data.projects.length) {
+    data.projects = defaults.projects.map((p) => ({ ...p }));
+  } else {
+    data.projects = data.projects
+      .filter((p) => p && p.id !== "proj-portal")
+      .map((p) => {
+        if (p.id === "proj-pos-restaurant" && /:9999\/?$/i.test(String(p.url || ""))) {
+          return Object.assign({}, p, { url: "http://103.144.126.90/pos-restoran" });
+        }
+        return p;
+      });
   }
   return data;
 }
@@ -124,13 +137,13 @@ function send(res, status, body, req) {
 }
 
 function readBody(req, maxBytes) {
-  const limit = maxBytes || MAX_BODY;
+  const limit = maxBytes === 0 ? Infinity : maxBytes || MAX_BODY;
   return new Promise((resolve, reject) => {
     const chunks = [];
     let size = 0;
     req.on("data", (c) => {
       size += c.length;
-      if (size > limit) {
+      if (Number.isFinite(limit) && size > limit) {
         reject(new Error("body_too_large"));
         req.destroy();
         return;
@@ -151,6 +164,7 @@ function normalizePortfolio(input) {
       name: String(profile.name || ""),
       nickname: String(profile.nickname || ""),
       tagline: String(profile.tagline || ""),
+      bio: String(profile.bio || ""),
       interests: String(profile.interests || ""),
       email: String(profile.email || ""),
       phone: String(profile.phone || ""),
@@ -186,6 +200,26 @@ function normalizePortfolio(input) {
           category: String(s.category || ""),
           items: String(s.items || "")
         }))
+      : [],
+    projects: Array.isArray(d.projects)
+      ? d.projects
+          .filter((p) => p && String(p.id) !== "proj-portal")
+          .map((p, i) => {
+            const status = String(p.status || "live").toLowerCase();
+            const allowed = ["live", "internal", "demo", "development"];
+            return {
+              id: String(p.id || "proj-" + (i + 1)),
+              title: String(p.title || ""),
+              summary: String(p.summary || ""),
+              tags: String(p.tags || ""),
+              status: allowed.includes(status) ? status : "live",
+            url: String(p.url || ""),
+            urlDemo: String(p.urlDemo || ""),
+            repo: String(p.repo || ""),
+              featured: Boolean(p.featured),
+              order: Number.isFinite(Number(p.order)) ? Number(p.order) : i + 1
+            };
+          })
       : []
   };
   return media.migratePortfolioPhotos(data);

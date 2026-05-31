@@ -6,7 +6,8 @@ const crypto = require("crypto");
 
 const UPLOAD_DIR = path.join(process.env.DATA_DIR || "/data", "uploads");
 const MAX_PHOTOS_PER_SECTION = 10;
-const MAX_BYTES = Number(process.env.MEDIA_MAX_BYTES || 900000);
+/** 0 = tanpa batas ukuran file (default). Set MEDIA_MAX_BYTES untuk membatasi. */
+const MAX_BYTES = Number(process.env.MEDIA_MAX_BYTES || 0);
 const ALLOWED = {
   "image/jpeg": ".jpg",
   "image/png": ".png",
@@ -62,7 +63,7 @@ function saveUpload(dataUrl) {
   const mime = m[1].toLowerCase();
   if (!ALLOWED[mime]) throw new Error("invalid_mime");
   const buf = Buffer.from(m[2], "base64");
-  if (buf.length > MAX_BYTES) throw new Error("file_too_large");
+  if (MAX_BYTES > 0 && buf.length > MAX_BYTES) throw new Error("file_too_large");
   ensureUploadDir();
   const id = newMediaId();
   const ext = ALLOWED[mime];

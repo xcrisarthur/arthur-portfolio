@@ -44,7 +44,7 @@
     container.innerHTML = items
       .map(function (it) {
         return (
-          '<div class="stat-item">' +
+          '<div class="stat-item reveal">' +
           '<div class="stat-item__value" data-count-target="' +
           String(it.value).replace(/"/g, "&quot;") +
           '">0</div>' +
@@ -102,13 +102,15 @@
 
   window.PortfolioCounters = {
     buildItems: function (data) {
+      var I = window.PortfolioI18n;
+      var t = I ? I.t.bind(I) : function (k) { return k; };
       var exps = data.experiences || [];
       var comps = ((data.achievements && data.achievements.competitions) || []).length;
       return [
-        { value: yearsFromExperiences(exps), label: "Tahun pengalaman TI & pengembangan" },
-        { value: String(exps.length), label: "Peran & proyek tercatat" },
-        { value: String(comps), label: "Penghargaan kompetisi web" },
-        { value: "3.67", label: "IPK Cum Laude · Teknik Informatika" }
+        { value: yearsFromExperiences(exps), label: t("stat.years") },
+        { value: String(exps.length), label: t("stat.roles") },
+        { value: String(comps), label: t("stat.awards") },
+        { value: "3.67", label: t("stat.gpa") }
       ];
     },
     render: function (gridEl, sectionEl, data) {
@@ -117,6 +119,7 @@
       mountStatsGrid(gridEl, items);
       if (sectionEl) sectionEl.hidden = false;
       observeAndAnimate(sectionEl || gridEl);
+      if (window.PortfolioReveal) window.PortfolioReveal.observe(gridEl);
     }
   };
 })();

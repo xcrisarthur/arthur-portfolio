@@ -3,8 +3,15 @@
     return window.PortfolioPhotos;
   };
 
-  var DEFAULT_BIO =
-    "Saya membangun sistem yang stabil dan aman — dari infrastruktur jaringan, pengembangan web, hingga keamanan siber — agar tim dan bisnis bisa berjalan tanpa hambatan teknis.";
+  var DEFAULT_BIO = function () {
+    var I = window.PortfolioI18n;
+    return I ? I.t("default.bio") : "Saya merancang dan mengoperasikan sistem yang stabil serta aman — mulai dari infrastruktur jaringan, pengembangan web, hingga keamanan siber — agar operasional tim dan bisnis berjalan tanpa hambatan teknis.";
+  };
+
+  function tr(key) {
+    var I = window.PortfolioI18n;
+    return I ? I.t(key) : key;
+  }
 
   function esc(s) {
     return String(s || "")
@@ -34,8 +41,8 @@
   }
 
   function profileBio(profile) {
-    if (!profile) return DEFAULT_BIO;
-    return String(profile.bio || "").trim() || DEFAULT_BIO;
+    if (!profile) return DEFAULT_BIO();
+    return String(profile.bio || "").trim() || DEFAULT_BIO();
   }
 
   function hasContact(profile) {
@@ -47,13 +54,13 @@
     var actions = document.getElementById(containerId || "cta-actions");
     if (!actions || !p) return;
     var html = "";
-    if (p.email) html += '<a class="btn btn--primary" href="mailto:' + esc(p.email) + '">Email saya</a>';
+    if (p.email) html += '<a class="btn btn--primary" href="mailto:' + esc(p.email) + '">' + esc(tr("cta.email")) + "</a>";
     if (p.linkedin) html += '<a class="btn btn--ghost" href="' + esc(p.linkedin) + '" target="_blank" rel="noopener noreferrer">LinkedIn</a>';
     if (p.github) html += '<a class="btn btn--ghost" href="' + esc(p.github) + '" target="_blank" rel="noopener noreferrer">GitHub</a>';
     if (p.phone) html += '<a class="btn btn--ghost" href="tel:' + esc(p.phone) + '">' + esc(p.phone) + "</a>";
     if (!html) {
       html =
-        '<p class="cta-empty">Informasi kontak belum diisi. Silakan hubungi saya melalui jaringan profesional atau isi email & LinkedIn lewat panel admin.</p>';
+        '<p class="cta-empty">' + esc(tr("cta.empty")) + "</p>";
     }
     actions.innerHTML = html;
   }
@@ -84,7 +91,7 @@
   }
 
   function aboutParagraphsHtml(paragraphs) {
-    if (!paragraphs || !paragraphs.length) return '<p class="muted">Belum ada konten.</p>';
+    if (!paragraphs || !paragraphs.length) return '<p class="muted">' + esc(tr("about.empty")) + "</p>";
     return paragraphs
       .map(function (p) {
         return "<p>" + esc(p) + "</p>";
@@ -95,11 +102,14 @@
   function renderAboutTeaser(paragraphs) {
     var el = document.getElementById("about-teaser");
     if (!el) return;
-    var first = paragraphs && paragraphs[0] ? esc(paragraphs[0]) : "Profil sedang diperbarui.";
+    var first = paragraphs && paragraphs[0] ? esc(paragraphs[0]) : tr("about.teaser.empty");
     el.innerHTML =
-      '<p class="about-teaser__text">' +
+      '<p class="about-teaser__text reveal">' +
       first +
-      '</p><a class="about-block__link" href="/about.html">Baca selengkapnya tentang saya →</a>';
+      '</p><a class="about-block__link reveal" href="/about.html">' +
+      esc(tr("about.teaser.link")) +
+      "</a>";
+    if (window.PortfolioReveal) window.PortfolioReveal.observe(el);
   }
 
   function renderAboutFull(paragraphs, aboutPhotos, profile) {
@@ -119,11 +129,11 @@
     if (side && profile) {
       side.innerHTML =
         '<div class="about-sidebar__card">' +
-        "<h3>Profil singkat</h3>" +
+        "<h3>" + esc(tr("about.sidebar.title")) + "</h3>" +
         "<ul>" +
-        (profile.location ? "<li><span>Lokasi</span><strong>" + esc(profile.location) + "</strong></li>" : "") +
-        (profile.tagline ? "<li><span>Fokus</span><strong>" + esc(profile.tagline) + "</strong></li>" : "") +
-        (profile.interests ? "<li><span>Minat</span><strong>" + esc(profile.interests) + "</strong></li>" : "") +
+        (profile.location ? "<li><span>" + esc(tr("about.sidebar.location")) + "</span><strong>" + esc(profile.location) + "</strong></li>" : "") +
+        (profile.tagline ? "<li><span>" + esc(tr("about.sidebar.focus")) + "</span><strong>" + esc(profile.tagline) + "</strong></li>" : "") +
+        (profile.interests ? "<li><span>" + esc(tr("about.sidebar.interests")) + "</span><strong>" + esc(profile.interests) + "</strong></li>" : "") +
         "</ul></div>";
     }
     if (Ph()) Ph().bindLightbox(story);
@@ -132,7 +142,9 @@
   function renderPrinciples() {
     var el = document.getElementById("about-principles");
     if (!el) return;
-    var items = [
+    var I = window.PortfolioI18n;
+    var localized = I && I.getPrinciples ? I.getPrinciples() : null;
+    var items = localized || [
       {
         title: "Stabilitas di atas fitur",
         text: "Sistem harus andal dulu — downtime dan data korup lebih mahal daripada fitur baru yang terburu-buru."

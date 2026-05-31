@@ -3,9 +3,18 @@
     return window.PortfolioCore;
   };
 
+  function tr(key) {
+    var I = window.PortfolioI18n;
+    return I ? I.t(key) : key;
+  }
+
   window.PortfolioAbout = {
     render: function (data) {
       if (!data) return;
+      if (window.PortfolioI18n) {
+        window.PortfolioI18n.setData(data);
+        data = window.PortfolioI18n.localizeData(data);
+      }
       var p = data.profile;
       if (C()) {
         C().setBrandName(p);
@@ -16,8 +25,9 @@
         C().renderCta(p, "about-cta");
       }
       var title = document.getElementById("about-page-title");
-      if (title && p) title.textContent = "Tentang — " + p.name;
-      document.title = (p && p.name ? "Tentang — " + p.name : "Tentang") + " · Portfolio";
+      if (title && p) title.textContent = tr("about.page.title");
+      document.title = tr("about.page.title") + (p && p.name ? " — " + p.name : "") + " · Portfolio";
+      if (window.PortfolioI18n) window.PortfolioI18n.applyStatic();
     },
     load: function () {
       return window.PortfolioApi.getPortfolio()
@@ -26,7 +36,7 @@
           return data;
         })
         .catch(function () {
-          if (C()) C().showError("Gagal memuat halaman about.");
+          if (C()) C().showError(tr("about.loadError"));
         });
     }
   };

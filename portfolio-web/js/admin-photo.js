@@ -15,7 +15,7 @@
     var list = window.PortfolioPhotos.normalizeList(photos).slice();
     container._photos = list;
     var label = opts.label || "Foto";
-    var hint = opts.hint || "Maks. " + MAX + " foto · JPG, PNG, WebP · maks. ~900 KB";
+    var hint = opts.hint || "Maks. " + MAX + " foto · JPG, PNG, WebP, GIF";
 
     function sync() {
       container._photos.length = 0;

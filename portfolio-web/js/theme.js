@@ -19,10 +19,23 @@
     var resolved = resolveTheme(mode);
     document.documentElement.setAttribute("data-theme", resolved);
     document.documentElement.setAttribute("data-theme-mode", mode);
+    var I = window.PortfolioI18n;
+    var label =
+      mode === "system"
+        ? I
+          ? I.t("theme.system")
+          : "Sistem"
+        : mode === "light"
+          ? I
+            ? I.t("theme.light")
+            : "Terang"
+          : I
+            ? I.t("theme.dark")
+            : "Gelap";
+    var prefix = I ? I.t("theme.label") : "Tema";
     document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
-      var label = mode === "system" ? "Sistem" : mode === "light" ? "Terang" : "Gelap";
-      btn.setAttribute("aria-label", "Tema: " + label);
-      btn.setAttribute("title", "Tema: " + label);
+      btn.setAttribute("aria-label", prefix + ": " + label);
+      btn.setAttribute("title", prefix + ": " + label);
     });
   }
 

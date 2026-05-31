@@ -17,21 +17,23 @@
   function inferTags(exp) {
     var text = (exp.title + " " + (exp.bullets || []).join(" ")).toLowerCase();
     var tags = [];
-    if (/network|mikrotik|infrastruktur|jaringan/i.test(text)) tags.push("Networking");
-    if (/laravel|next|web|developer|programmer|full.?stack/i.test(text)) tags.push("Full Stack");
-    if (/security|red team|penetration|nmap|metasploit/i.test(text)) tags.push("Security");
-    if (/support|troubleshoot|lab/i.test(text)) tags.push("IT Support");
-    if (/erp|pos|digital/i.test(text)) tags.push("Digitalisasi");
-    if (!tags.length) tags.push("Professional");
+    if (/network|mikrotik|infrastruktur|jaringan/i.test(text)) tags.push(tr("tag.networking"));
+    if (/laravel|next|web|developer|programmer|full.?stack/i.test(text)) tags.push(tr("tag.fullstack"));
+    if (/security|red team|penetration|nmap|metasploit/i.test(text)) tags.push(tr("tag.security"));
+    if (/support|troubleshoot|lab/i.test(text)) tags.push(tr("tag.support"));
+    if (/erp|pos|digital/i.test(text)) tags.push(tr("tag.digital"));
+    if (!tags.length) tags.push(tr("tag.professional"));
     return tags.slice(0, 3);
   }
 
-  function yearSpan(period) {
-    if (!period) return "—";
-    var m = String(period).match(/(\d{4})/g);
-    if (!m) return period;
-    if (m.length >= 2) return m[0] + " – " + m[m.length - 1];
-    return m[0];
+  function formatPeriod(period) {
+    var I = window.PortfolioI18n;
+    return I ? I.formatPeriod(period) : period || "—";
+  }
+
+  function tr(key) {
+    var I = window.PortfolioI18n;
+    return I ? I.t(key) : key;
   }
 
   function renderProfile(p, expCount) {
@@ -42,14 +44,18 @@
       C().updatePageMeta(p);
     }
 
-    var photoAlt = p.name ? "Foto profil " + p.name : "Foto profil";
-    var photos = Ph() ? Ph().galleryHtml(p.photos, { single: true, altPrefix: photoAlt }) : "";
+    var photoAlt = p.name ? tr("photo.profile") + " " + p.name : tr("photo.profile");
+    var photos = Ph()
+      ? Ph().stackHtml(p.photos, { altPrefix: photoAlt, albumTitle: tr("photo.profileOf") + " " + (p.name || "") })
+      : "";
     var bio = C() ? C().profileBio(p) : "";
 
     el.innerHTML =
-      '<div class="hero__inner">' +
+      '<div class="hero__inner reveal">' +
       '<div class="hero__copy">' +
-      "<h1>Halo, saya " +
+      "<h1>" +
+      esc(tr("hero.greeting")) +
+      " " +
       esc(p.name) +
       "</h1>" +
       '<p class="hero__role">' +
@@ -59,8 +65,12 @@
       esc(bio) +
       "</p>" +
       '<div class="hero__actions">' +
-      '<a class="btn btn--primary" href="/about.html">Tentang saya</a>' +
-      '<a class="btn btn--ghost" href="#pengalaman">Pengalaman</a>' +
+      '<a class="btn btn--primary" href="/about.html">' +
+      esc(tr("hero.aboutBtn")) +
+      "</a>" +
+      '<a class="btn btn--ghost" href="#pengalaman">' +
+      esc(tr("hero.experienceBtn")) +
+      "</a>" +
       "</div>" +
       (p.location ? '<p class="hero__meta">' + esc(p.location) + (p.interests ? " · " + esc(p.interests) : "") + "</p>" : "") +
       "</div>" +
@@ -69,6 +79,7 @@
     el.removeAttribute("aria-busy");
     if (Ph()) Ph().bindLightbox(el);
     if (C()) C().renderCta(p);
+    if (window.PortfolioReveal) window.PortfolioReveal.observe(el);
   }
 
   function renderWorkCard(e) {
@@ -80,9 +91,9 @@
       .join("");
     var summary = e.bullets && e.bullets[0] ? esc(e.bullets[0]) : "";
     return (
-      '<article class="work-card">' +
+      '<article class="work-card reveal">' +
       '<p class="work-card__meta">' +
-      esc(yearSpan(e.period)) +
+      esc(formatPeriod(e.period)) +
       "</p>" +
       '<div class="work-card__tags">' +
       tagHtml +
@@ -106,11 +117,12 @@
     var expand = document.getElementById("timeline-expand");
     if (!featured) return;
     if (!list || !list.length) {
-      featured.innerHTML = '<p class="muted">Belum ada pengalaman.</p>';
+      featured.innerHTML = '<p class="muted">' + esc(tr("empty.experience")) + "</p>";
       if (expand) expand.hidden = true;
       return;
     }
     featured.innerHTML = list.slice(0, 3).map(renderWorkCard).join("");
+    if (window.PortfolioReveal) window.PortfolioReveal.observe(featured);
     if (timeline) {
       timeline.innerHTML = list
         .map(function (e) {
@@ -136,7 +148,7 @@
             '<p class="timeline__meta">' +
             esc(e.company) +
             " · " +
-            esc(e.period) +
+            esc(formatPeriod(e.period)) +
             "</p>" +
             bullets +
             "</div></article>"
@@ -152,15 +164,15 @@
     a = a || {};
     var sectionEl = document.getElementById("ach-section-photos");
     if (sectionEl && Ph()) {
-      var main = Ph().galleryHtml(a.photos, { altPrefix: "Prestasi — " });
+      var main = Ph().galleryHtml(a.photos, { altPrefix: tr("ach.altPrefix") + " " });
       sectionEl.innerHTML = main || "";
       sectionEl.hidden = !main;
       if (main) Ph().bindLightbox(sectionEl);
     }
     var blocks = [
-      { id: "ach-competitions", title: "Kompetisi", items: a.competitions, photos: a.competitionPhotos },
-      { id: "ach-certifications", title: "Sertifikasi", items: a.certifications, photos: a.certificationPhotos },
-      { id: "ach-activities", title: "Aktivitas", items: a.activities, photos: a.activityPhotos }
+      { id: "ach-competitions", title: tr("ach.competitions"), items: a.competitions, photos: a.competitionPhotos },
+      { id: "ach-certifications", title: tr("ach.certifications"), items: a.certifications, photos: a.certificationPhotos },
+      { id: "ach-activities", title: tr("ach.activities"), items: a.activities, photos: a.activityPhotos }
     ];
     blocks.forEach(function (b) {
       var el = document.getElementById(b.id);
@@ -190,7 +202,7 @@
     var el = document.getElementById("skills-grid");
     if (!el) return;
     if (!skills || !skills.length) {
-      el.innerHTML = '<p class="muted">Belum ada keahlian.</p>';
+      el.innerHTML = '<p class="muted">' + esc(tr("empty.skills")) + "</p>";
       return;
     }
     el.innerHTML = skills
@@ -201,7 +213,7 @@
           })
           .join("");
         return (
-          '<div class="skill-card"><h3>' +
+          '<div class="skill-card reveal"><h3>' +
           esc(s.category) +
           '</h3><div class="skill-card__tags">' +
           tags +
@@ -209,24 +221,105 @@
         );
       })
       .join("");
+    if (window.PortfolioReveal) window.PortfolioReveal.observe(el);
+  }
+
+  function projectStatusLabel(status) {
+    var map = {
+      live: tr("status.live"),
+      internal: tr("status.internal"),
+      demo: tr("status.demo"),
+      development: tr("status.development")
+    };
+    return map[status] || tr("status.live");
+  }
+
+  function renderProjectCard(p) {
+    var tags = splitItems(p.tags);
+    var tagHtml = tags
+      .map(function (t) {
+        return '<span class="work-card__tag">' + esc(t) + "</span>";
+      })
+      .join("");
+    var actions = "";
+    if (p.urlDemo) {
+      actions +=
+        '<a class="btn btn--ghost btn--sm" href="' +
+        esc(p.urlDemo) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        esc(tr("btn.demo")) +
+        "</a>";
+    }
+    if (p.repo) {
+      actions +=
+        '<a class="btn btn--ghost btn--sm" href="' +
+        esc(p.repo) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        esc(tr("btn.github")) +
+        "</a>";
+    }
+  return (
+      '<article class="work-card project-card reveal">' +
+      '<div class="project-card__head">' +
+      '<span class="project-card__status project-card__status--' +
+      esc(p.status || "live") +
+      '">' +
+      esc(projectStatusLabel(p.status)) +
+      "</span>" +
+      "</div>" +
+      (tagHtml ? '<div class="work-card__tags">' + tagHtml + "</div>" : "") +
+      "<h3>" +
+      esc(p.title) +
+      "</h3>" +
+      "<p>" +
+      esc(p.summary || "") +
+      "</p>" +
+      (actions ? '<div class="project-card__actions">' + actions + "</div>" : "") +
+      "</article>"
+    );
+  }
+
+  function renderProjects(list) {
+    var el = document.getElementById("projects-grid");
+    if (!el) return;
+    if (!list || !list.length) {
+      el.innerHTML = '<p class="muted">' + esc(tr("empty.projects")) + "</p>";
+      return;
+    }
+    var featured = list.filter(function (p) {
+      return p.featured;
+    });
+    var visible = (featured.length ? featured : list).slice().sort(function (a, b) {
+      return (a.order || 0) - (b.order || 0);
+    });
+    el.innerHTML = visible.map(renderProjectCard).join("");
+    if (window.PortfolioReveal) window.PortfolioReveal.observe(el);
   }
 
   window.PortfolioApp = {
     render: function (data) {
       if (!data) return;
-      var exps = data.experiences || [];
-      renderProfile(data.profile, exps.length);
+      if (window.PortfolioI18n) window.PortfolioI18n.setData(data);
+      var view = window.PortfolioI18n ? window.PortfolioI18n.localizeData(data) : data;
+      var exps = view.experiences || [];
+      renderProfile(view.profile, exps.length);
       if (window.PortfolioCounters) {
         window.PortfolioCounters.render(
           document.getElementById("stats-grid"),
           document.getElementById("stats"),
-          data
+          view
         );
       }
-      if (C()) C().renderAboutTeaser(data.about);
+      if (C()) C().renderAboutTeaser(view.about);
       renderExperiences(exps);
-      renderAchievements(data.achievements);
-      renderSkills(data.skills);
+      renderProjects(view.projects);
+      renderAchievements(view.achievements);
+      renderSkills(view.skills);
+      if (window.PortfolioReveal) {
+        window.PortfolioReveal.observe(document.getElementById("ach-grid"));
+        window.PortfolioReveal.observe(document.getElementById("skills-grid"));
+        window.PortfolioReveal.observeAll();
+      }
     },
     load: function () {
       return window.PortfolioApi.getPortfolio()
@@ -235,7 +328,7 @@
           return data;
         })
         .catch(function () {
-          if (C()) C().showError("Gagal memuat portfolio. Pastikan API berjalan di server ini.");
+          if (C()) C().showError(tr("error.load"));
         });
     }
   };

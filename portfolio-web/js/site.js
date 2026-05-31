@@ -13,7 +13,7 @@
     var isHome = path === "/" || path.endsWith("/index.html");
     if (!isHome) return;
 
-    var sections = ["tentang", "pengalaman", "prestasi", "keahlian", "kontak"]
+    var sections = ["tentang", "pengalaman", "proyek", "prestasi", "keahlian", "kontak"]
       .map(function (id) {
         return document.getElementById(id);
       })
@@ -82,6 +82,9 @@
 
     var slot = document.getElementById("theme-slot");
     if (slot && window.PortfolioTheme) window.PortfolioTheme.mountToggle(slot);
+
+    var langSlot = document.getElementById("lang-slot");
+    if (langSlot && window.PortfolioI18n) window.PortfolioI18n.mountSwitcher(langSlot);
   }
 
   if (document.readyState === "loading") {
